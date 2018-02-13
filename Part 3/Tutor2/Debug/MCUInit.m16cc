@@ -1,0 +1,7 @@
+-I"C:\WorkSpace\Tutor2"
+-I"C:\WorkSpace\Tutor2\Tutor2"
+-I"C:\WorkSpace\Tutor2\..\Common"
+-c
+-finfo
+-dir "C:\WorkSpace\Tutor2\Tutor2\Debug"
+"C:\WorkSpace\Tutor2\Tutor2\MCUInit.c"

@@ -1,0 +1,9 @@
+-L "nc30lib"
+-G
+-MS
+-O "C:\WorkSpace\Tutor2\Tutor2\Debug\Tutor2.x30"
+"C:\WorkSpace\Tutor2\Tutor2\Debug\ncrt0.r30"
+"C:\WorkSpace\Tutor2\Tutor2\Debug\Interrupts.r30"
+"C:\WorkSpace\Tutor2\Tutor2\Debug\LCD.r30"
+"C:\WorkSpace\Tutor2\Tutor2\Debug\MCUInit.r30"
+"C:\WorkSpace\Tutor2\Tutor2\Debug\QSK62P.r30"
