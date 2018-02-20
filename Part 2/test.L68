@@ -1,0 +1,292 @@
+00004C00 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 2/20/2018 6:24:52 PM
+
+00000000                             1  
+00000000                             2  *-----------------------------------------------------------
+00000000                             3  * Title      : SIMPLE CALCULATOR
+00000000                             4  * Written by : ANTHONY LOFLIN
+00000000                             5  * Date       : 1/27/2018
+00000000                             6  * Description: PROJECT 1 PART 1
+00000000                             7  *-----------------------------------------------------------
+00004C00                             8      ORG    $4C00        ORIGIN IN MEMORY
+00004C00                             9  START:            
+00004C00                            10  
+00004C00  49F9 00004E30             11      LEA     MESSAGE,A4  LOADS THE ADDRESS OF THE SAVED STRING INTO ADDRESS REGISTER 1 
+00004C06  123C 0004                 12      MOVE.B  #4,D1      PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
+00004C0A  4E40                      13      TRAP    #0         TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITH LF AND CR
+00004C0C                            14      
+00004C0C                            15  MENU:
+00004C0C                            16  
+00004C0C  49F9 00004E60             17      LEA     MENUPROMPT,A4   LOADS THE ADDRESS FOR THE MENUPROMPT 
+00004C12  123C 0004                 18      MOVE.B  #4,D1          PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
+00004C16  4E40                      19      TRAP    #0             TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITHOUT LF AND CR
+00004C18  4E4E                      20      TRAP    #14
+00004C1A  123C 0000                 21      MOVE.B  #0,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
+00004C1E  4E40                      22      TRAP    #0             TRAP COMMAND READS A NUMBER FROM THE KEYBOARD AND STORES IT INTO D1.L
+00004C20  49F9 00005000             23      LEA     SPACING,A4      LOADS A PREDETERMINED SPACING STRING
+00004C26  123C 0004                 24      MOVE.B  #4,D1          PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
+00004C2A  4E40                      25      TRAP    #0             TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITH LF AND CR
+00004C2C                            26      
+00004C2C  4E4F                      27      TRAP    #15
+00004C2E                            28      
+00004C2E  B0BC 00000001             29      CMP.L   #1,D0           COMPARES THE NUMBER CAPTURED ABOVE TO PRE-SELECTED INTEGERS TO BRANCH TO SUBROUTINES
+00004C34  6700 0038                 30      BEQ     ADD             BRANCH IF EQUAL TO ADDITION
+00004C38  B0BC 00000002             31      CMP.L   #2,D0
+00004C3E  6700 0088                 32      BEQ     SUB             BRANCH IF EQUAL TO SUBTRACTION
+00004C42  B0BC 00000003             33      CMP.L   #3,D0
+00004C48  6700 00E0                 34      BEQ     MULTI           BRANCH IF EQUAL TO MULTIPLICATION
+00004C4C  B0BC 00000004             35      CMP.L   #4,D0
+00004C52  6700 0138                 36      BEQ     DIV             BRANCH IF EQUAL TO DIVISION
+00004C56  B0BC 00000000             37      CMP.L   #0,D0       
+00004C5C  6700 01B8                 38      BEQ     EXIT            BRANCH IF EQUAL TO EXIT
+00004C60                            39      
+00004C60                            40  ERROR:                      ;SHOULD NOTHING EQUAL, PROGRAM RUNS INTO AN ERROR MESSAGE AND LOOPS BACK
+00004C60                            41  
+00004C60                            42  
+00004C60  49F9 00004FE0             43      LEA     ERRORPROMPT,A4  LOADS STRING ADDRESS
+00004C66  123C 0004                 44      MOVE.B  #4,D1
+00004C6A  4E40                      45      TRAP    #0
+00004C6C  609E                      46      BRA     MENU            
+00004C6E                            47  ADD:
+00004C6E                            48  
+00004C6E                            49  
+00004C6E  49F9 00004EB5             50      LEA     ADDPROMPT,A4    LOADS PROMPT FOR ADDITION
+00004C74  123C 0004                 51      MOVE.B  #4,D1          
+00004C78  4E40                      52      TRAP    #0
+00004C7A  49F9 00005000             53      LEA     SPACING,A4      LOADS A SPACING FORMAT FOR ASTHETICS
+00004C80  123C 0004                 54      MOVE.B  #4,D1
+00004C84  4E40                      55      TRAP    #0
+00004C86  123C 0001                 56      MOVE.B  #1,D1           CAPTURES A NUMBER FROM THE KEYBOARD (STORED IN DATA REGISTER 1)
+00004C8A  4E40                      57      TRAP    #0
+00004C8C  49F9 0000502D             58      LEA     ADDSIGN,A4      ADDITION SIGN IS DISPLAYED
+00004C92  123C 0004                 59      MOVE.B  #4,D1
+00004C96  4E40                      60      TRAP    #0
+00004C98  2400                      61      MOVE.L  D0,D2           MOVE DATA FROM THE FIRST NUMBER TO DATA REGISTER 2 FROM DATA REGISTER 1
+00004C9A  123C 0001                 62      MOVE.B  #1,D1           CAPTURE ANOTHER NUMBER  FROM THE KEYBOARD (STORED IN DATA REGISTER 1)
+00004C9E  4E40                      63      TRAP    #0
+00004CA0  2600                      64      MOVE.L  D0,D3           MOVE DATA FROM DATA REGISTER 1 TO DATA REGISTER 3
+00004CA2  D682                      65      ADD.L   D2,D3           ADD DATA FROM REGISTER 2 TO REGISTER 3
+00004CA4  49F9 00005027             66      LEA     EQUALSIGN,A4    EQUAL SIGN IS DISPLAYED
+00004CAA  123C 0004                 67      MOVE.B  #4,D1
+00004CAE  4E40                      68      TRAP    #0
+00004CB0  2003                      69      MOVE.L  D3,D0           MOVE THE ADDED NUMBER FROM REGISTER 3 TO REGISTER 1
+00004CB2  123C 0001                 70      MOVE.B  #1,D1           DISPLAY THE ANSWER OF THE ADDITION OPERATION
+00004CB6  4E40                      71      TRAP    #0
+00004CB8  43F9 00005000             72      LEA     SPACING,A1      SPACING FOR ASTHETICS
+00004CBE  123C 0004                 73      MOVE.B  #4,D1
+00004CC2  4E40                      74      TRAP    #0
+00004CC4  6000 FF46                 75      BRA     MENU            RETURN TO MAIN MENU
+00004CC8                            76      
+00004CC8                            77  SUB:
+00004CC8  323C FF00                 78      MOVE.W  #$FF00,D1       clrscr val
+00004CCC  700B                      79      MOVEQ   #11,D0          clrscr
+00004CCE  4E4F                      80      TRAP    #15             clear scrn
+00004CD0                            81  
+00004CD0                            82      
+00004CD0  43F9 00004EEA             83      LEA     SUBPROMPT,A1    LOADS SUBTRATION PROMPT
+00004CD6  103C 000E                 84      MOVE.B  #14,D0
+00004CDA  4E4F                      85      TRAP    #15
+00004CDC  43F9 00005000             86      LEA     SPACING,A1      LOADS A SPACING FORMAT FOR ASTHETICS
+00004CE2  103C 000D                 87      MOVE.B  #13,D0
+00004CE6  4E4F                      88      TRAP    #15
+00004CE8  103C 0004                 89      MOVE.B  #4,D0           CAPTURES NUMBER FROM KEYBOAD AND STORES IT INTO DATA REGISTER 1
+00004CEC  4E4F                      90      TRAP    #15
+00004CEE  43F9 0000502F             91      LEA     SUBSIGN,A1      ADDITION SIGN IS DISPLAYED
+00004CF4  103C 000E                 92      MOVE.B  #14,D0
+00004CF8  4E4F                      93      TRAP    #15
+00004CFA  2601                      94      MOVE.L  D1,D3           MOVES INPUT TO DATA REGISTER 3
+00004CFC  103C 0004                 95      MOVE.B  #4,D0           CAPTURES INPUT FROM THE KEYBOARD AND STORES IT INTO DATA REGISTER 1
+00004D00  4E4F                      96      TRAP    #15
+00004D02  2401                      97      MOVE.L  D1,D2           DATA FROM RESITER 1 IS MOVED TO REGISTER 2
+00004D04  9682                      98      SUB.L   D2,D3           SUBTRACT DATA REGISTER 2 FROM DATA REGISTER 3
+00004D06  43F9 00005027             99      LEA     EQUALSIGN,A1    EQUAL SIGN IS DISPLAYED
+00004D0C  103C 000D                100      MOVE.B  #13,D0
+00004D10  4E4F                     101      TRAP    #15
+00004D12  2203                     102      MOVE.L  D3,D1           MOVE THE DATA FROM REGISTER 3 TO REGISTER 1
+00004D14  103C 0003                103      MOVE.B  #3,D0           DISPLAY THE ANSWER OF THE SUBTRACTION OPERATION
+00004D18  4E4F                     104      TRAP    #15
+00004D1A  43F9 00005000            105      LEA     SPACING,A1      SPACING FOR ASTHETICS
+00004D20  103C 000D                106      MOVE.B  #13,D0
+00004D24  4E4F                     107      TRAP    #15
+00004D26  6000 FEE4                108      BRA     MENU            RETURN TO MAIN MENU
+00004D2A                           109   
+00004D2A                           110  MULTI:
+00004D2A  323C FF00                111      MOVE.W  #$FF00,D1       clrscr val
+00004D2E  700B                     112      MOVEQ   #11,D0          clrscr
+00004D30  4E4F                     113      TRAP    #15             clear scrn
+00004D32                           114  
+00004D32                           115      
+00004D32  43F9 00004F34            116      LEA     MULTIPROMPT,A1  LOADS MULTIPLICATION PROMP
+00004D38  103C 000E                117      MOVE.B  #14,D0
+00004D3C  4E4F                     118      TRAP    #15
+00004D3E  43F9 00005000            119      LEA     SPACING,A1      LOADS A SPACING FORMAT FOR ASTHETICS
+00004D44  103C 000D                120      MOVE.B  #13,D0
+00004D48  4E4F                     121      TRAP    #15
+00004D4A  103C 0004                122      MOVE.B  #4,D0           CAPTURES NUMBER FROM KEYBOAD AND STORES IT INTO DATA REGISTER 1
+00004D4E  4E4F                     123      TRAP    #15
+00004D50  43F9 00005031            124      LEA     MULTISIGN,A1    MULTIPICATION SIGN IS DISPLAYED
+00004D56  103C 000E                125      MOVE.B  #14,D0          CAPTURES NUMBER FROM KEYBOAD AND STORES IT INTO DATA REGISTER 1
+00004D5A  4E4F                     126      TRAP    #15
+00004D5C  2401                     127      MOVE.L  D1,D2           DATA FROM RESITER 1 IS MOVED TO REGISTER 2
+00004D5E  103C 0004                128      MOVE.B  #4,D0           CAPTURES NUMBER FROM KEYBOAD AND STORES IT INTO DATA REGISTER 1
+00004D62  4E4F                     129      TRAP    #15
+00004D64  2601                     130      MOVE.L  D1,D3           MOVES DATA FROM REGISTER 1 TO REGISTER 3
+00004D66  C7C2                     131      MULS   D2,D3            MULTIPLYS REGISTER 2 BY REGISTER 3
+00004D68  43F9 00005027            132      LEA     EQUALSIGN,A1    EQUAL SIGN IS DISPLAYED
+00004D6E  103C 000D                133      MOVE.B  #13,D0
+00004D72  4E4F                     134      TRAP    #15
+00004D74  2203                     135      MOVE.L  D3,D1           MOVES RESULTANT DATA FROM REGISTER 3 TO REGISTER 1
+00004D76  103C 0003                136      MOVE.B  #3,D0           DISPLAY THE ANSWER OF THE MULTIPLICATION OPERATION
+00004D7A  4E4F                     137      TRAP    #15
+00004D7C  43F9 00005000            138      LEA     SPACING,A1      SPACING FOR ASTHETICS
+00004D82  103C 000D                139      MOVE.B  #13,D0
+00004D86  4E4F                     140      TRAP    #15
+00004D88  6000 FE82                141      BRA     MENU            RETURN TO MAIN MENU
+00004D8C                           142  
+00004D8C                           143  
+00004D8C                           144  DIV:
+00004D8C  323C FF00                145      MOVE.W  #$FF00,D1       clrscr val
+00004D90  700B                     146      MOVEQ   #11,D0          clrscr
+00004D92  4E4F                     147      TRAP    #15             clear scrn
+00004D94                           148  
+00004D94  43F9 00004F7E            149      LEA    DIVPROMPT,A1     LOADS DIVISION PROMPT
+00004D9A  103C 000E                150      MOVE.B  #14,D0
+00004D9E  4E4F                     151      TRAP    #15
+00004DA0  43F9 00005000            152      LEA     SPACING,A1      LOADS A SPACING FORMAT FOR ASTHETICS
+00004DA6  103C 000D                153      MOVE.B  #13,D0
+00004DAA  4E4F                     154      TRAP    #15
+00004DAC  103C 0004                155      MOVE.B  #4,D0           CAPTURES NUMBER FROM KEYBOAD AND STORES IT INTO DATA REGISTER 1
+00004DB0  4E4F                     156      TRAP    #15
+00004DB2  43F9 00005033            157      LEA     DIVSIGN,A1      DIVISION SIGN IS DISPLAYED
+00004DB8  103C 000E                158      MOVE.B  #14,D0          CAPTURES NUMBER FROM KEYBOAD AND STORES IT INTO DATA REGISTER 1
+00004DBC  4E4F                     159      TRAP    #15
+00004DBE  2601                     160      MOVE.L  D1,D3           MOVES DATA FROM REGISTER 1 TO REGISTER 3
+00004DC0  103C 0004                161      MOVE.B  #4,D0           CAPTURES NUMBER FROM KEYBOARD AND STORES IT INTO DATA REGISTER 1
+00004DC4  4E4F                     162      TRAP    #15
+00004DC6  2401                     163      MOVE.L  D1,D2           MOVES DATA FROM REGISTER 1 TO REGISTER 2
+00004DC8  B4BC 00000000            164      CMP.L   #0,D2           ENSURE THAT THE DIVISOR ISNOT A ZERO
+00004DCE  6700 002E                165      BEQ     DIVZERO         IF DIVISOR IS A ZERO BREAKS AND PRESENTS AN ERROR CODE
+00004DD2  87C2                     166      DIVS    D2,D3           DIVIDES REGISTER 3 BY REGISTER 2
+00004DD4  0283 0000FFFF            167      ANDI.L  #$0000FFFF,D3   CLEARS UPPER BYTE OF WORD WHERE REMAINDERS ARE STORED
+00004DDA  43F9 00005027            168      LEA     EQUALSIGN,A1    EQUAL SIGN IS DISPLAYED
+00004DE0  103C 000D                169      MOVE.B  #13,D0
+00004DE4  4E4F                     170      TRAP    #15
+00004DE6  2203                     171      MOVE.L  D3,D1           MOVES THE DATA FROM REGISTER 3 TO REGISTER 1
+00004DE8  103C 0003                172      MOVE.B  #3,D0           DISPLAY THE ANSWER OF THE DIVISION OPERATION
+00004DEC  4E4F                     173      TRAP    #15
+00004DEE  43F9 00005000            174      LEA     SPACING,A1      SPACING FOR ASTHETICS
+00004DF4  103C 000D                175      MOVE.B  #13,D0
+00004DF8  4E4F                     176      TRAP    #15
+00004DFA                           177      
+00004DFA  6000 FE10                178      BRA     MENU            RETURN TO MAIN 
+00004DFE                           179      
+00004DFE                           180  DIVZERO:  
+00004DFE  323C FF00                181      MOVE.W  #$FF00,D1       clrscr val
+00004E02  700B                     182      MOVEQ   #11,D0          clrscr
+00004E04  4E4F                     183      TRAP    #15             clear scrn
+00004E06                           184    
+00004E06  43F9 00005004            185      LEA     DIVZEROPROMPT,A1 LOADS ERROR MESSAGE    
+00004E0C  103C 000E                186      MOVE.B  #14,D0
+00004E10  4E4F                     187      TRAP    #15 
+00004E12  6000 FDF8                188      BRA     MENU            RETURN TO MAIN
+00004E16                           189  
+00004E16                           190      
+00004E16                           191  EXIT
+00004E16                           192  
+00004E16  323C FF00                193      MOVE.W  #$FF00,D1       clrscr val
+00004E1A  700B                     194      MOVEQ   #11,D0          clrscr
+00004E1C  4E4F                     195      TRAP    #15             clear scrn
+00004E1E  43F9 00005037            196      LEA     GOODBYE,A1       LOADS EXIT MESSAGE
+00004E24  103C 000E                197      MOVE.B  #14,D0          
+00004E28  4E4F                     198      TRAP    #15 
+00004E2A                           199  
+00004E2A  103C 0009                200      MOVE.B  #9,D0           TRAP COMMAND TO HALT SIMULATOR
+00004E2E  4E4F                     201      TRAP    #15  
+00004E30                           202    
+00004E30  =0000000D                203  CR  EQU $0D
+00004E30  =0000000A                204  LF  EQU $0A   
+00004E30                           205  
+00004E30= 53 49 4D 50 4C 45 ...    206  MESSAGE DC.B  'SIMPLE CALCULATOR',CR,LF
+00004E43= 50 4C 45 41 53 45 ...    207          DC.B   'PLEASE CHOOSE AN OPERATION',CR,LF,0
+00004E60                           208  MENUPROMPT  
+00004E60= 31 29 20 41 44 44 ...    209          DC.B    '1) ADDITION',CR,LF
+00004E6D= 32 29 20 53 55 42 ...    210          DC.B    '2) SUBTRACTION',CR,LF
+00004E7D= 33 29 20 4D 55 4C ...    211          DC.B    '3) MULTIPLICATION',CR,LF
+00004E90= 34 29 20 44 49 56 ...    212          DC.B    '4) DIVISION',CR,LF
+00004E9D= 30 29 20 45 58 49 ...    213          DC.B    '0) EXIT',CR,LF
+00004EA6= 20 20 20 4F 50 45 ...    214          DC.B    '   OPERATION: ',0  
+00004EB5                           215  ADDPROMPT 
+00004EB5= 41 44 44 49 54 49 ...    216          DC.B  'ADDITION',CR,LF
+00004EBF= 43 48 4F 53 45 20 ...    217          DC.B   'CHOSE THE TWO NUMBERS TO ADD (-99 TO 99)',CR,LF,0
+00004EEA                           218       
+00004EEA                           219  SUBPROMPT 
+00004EEA= 53 55 42 54 52 41 ...    220          DC.B  'SUBTRACTION',CR,LF
+00004EF7= 57 48 41 54 20 57 ...    221          DC.B  'WHAT WOULD YOU LIKE TO SUBTRACT (-99 TO 99), EX: 4-3, 2-99',CR,LF,0
+00004F34                           222          
+00004F34                           223  MULTIPROMPT 
+00004F34= 4D 55 4C 54 49 50 ...    224          DC.B  'MULTIPLICATION',CR,LF
+00004F44= 57 48 41 54 20 54 ...    225          DC.B  'WHAT TWO NUMBERS WOULD YOU LIKE TO MULTIPLY (-99 TO 99)',CR,LF,0  
+00004F7E                           226          
+00004F7E                           227  DIVPROMPT 
+00004F7E= 44 49 56 49 53 49 ...    228          DC.B  'DIVISION',CR,LF
+00004F88= 57 48 41 54 20 54 ...    229          DC.B  'WHAT TWO NUMBERS WOULD YOU LIKE TO DIVIDE',CR,LF
+00004FB3= 4E 55 4D 45 52 41 ...    230          DC.B  'NUMERATOR FIRST, DIVSOR SECOND (-99 TO 99)',CR,LF,0
+00004FE0                           231       
+00004FE0                           232  ERRORPROMPT 
+00004FE0= 4E 4F 54 20 41 20 ...    233          DC.B  'NOT A VALID CHOICE',CR,LF
+00004FF4= 54 52 59 20 41 47 ...    234          DC.B  'TRY AGAIN',CR,LF,0 
+00005000                           235  SPACING
+00005000= 20 0D 0A 00              236          DC.B    ' ',CR,LF,0
+00005004                           237          
+00005004                           238  DIVZEROPROMPT 
+00005004= 43 41 4E 4E 4F 54 ...    239          DC.B  'CANNOT DIVIDE BY ZERO',CR,LF
+0000501B= 54 52 59 20 41 47 ...    240          DC.B  'TRY AGAIN',CR,LF,0 
+00005027                           241  EQUALSIGN
+00005027= 3D 3D 3D 3D 3D 00        242          DC.B  '=====',0
+0000502D                           243  ADDSIGN
+0000502D= 2B 00                    244          DC.B    '+',0
+0000502F                           245  SUBSIGN
+0000502F= 2D 00                    246          DC.B    '-',0
+00005031                           247  MULTISIGN
+00005031= 2A 00                    248          DC.B    '*',0
+00005033                           249  DIVSIGN
+00005033= 2F 0D 0A 00              250          DC.B    '/',CR,LF,0
+00005037                           251  GOODBYE
+00005037= 47 4F 4F 44 20 42 ...    252          DC.B     'GOOD BYE',CR,LF,0
+00005042                           253     
+00005042                           254       END    START       
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ADD                 4C6E
+ADDPROMPT           4EB5
+ADDSIGN             502D
+CR                  D
+DIV                 4D8C
+DIVPROMPT           4F7E
+DIVSIGN             5033
+DIVZERO             4DFE
+DIVZEROPROMPT       5004
+EQUALSIGN           5027
+ERROR               4C60
+ERRORPROMPT         4FE0
+EXIT                4E16
+GOODBYE             5037
+LF                  A
+MENU                4C0C
+MENUPROMPT          4E60
+MESSAGE             4E30
+MULTI               4D2A
+MULTIPROMPT         4F34
+MULTISIGN           5031
+SPACING             5000
+START               4C00
+SUB                 4CC8
+SUBPROMPT           4EEA
+SUBSIGN             502F
