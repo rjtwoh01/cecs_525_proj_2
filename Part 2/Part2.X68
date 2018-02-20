@@ -76,8 +76,8 @@ RESET:  	EQU 	*
 RamTest
 	    	move.b #$FF, d5
         	move.l #$4000, a0
-        	;bsr    ClearRam
-        	;bsr    WriteRam
+        	bsr    ClearRam
+                bsr    WriteRam
         	bra 	MemTestEnd
   
 ClearRam
@@ -140,10 +140,10 @@ MemTestEnd
 ALUTest:
         	move.b #14, d1
    
-        	;bsr	Add
-        	;bsr	Subtract
-        	;bsr	Multiply
-        	;bsr	Divide
+        	bsr	Add
+        	bsr	Subtract
+        	bsr	Multiply
+        	bsr	Divide
         	bra	 EndALUTest
  
 Add
@@ -1639,6 +1639,7 @@ _chr:
         DC.B  	1
       
         END   	RESET
+
 
 
 
