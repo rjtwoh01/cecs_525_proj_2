@@ -1,0 +1,608 @@
+00000000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 2/20/2018 12:27:32 PM
+
+00000000                             1  ; C:\USERS\ANTHONY\DESKTOP\SCHOOL\CECS 525\PROJECT 1\PROJECT 1\MYPROG\IO.C - Compiled by CC68K  Version 5.00 (c) 1991-2005  Peter J. Fondse
+00000000                             2  ; //by Eugene Rockey Copyright 2012 All Rights Reserved
+00000000                             3  ; //Constants
+00000000                             4  ; #define ACIAC 0x8001
+00000000                             5  ; #define ACIAD 0x8003
+00000000                             6  ; #define RDRF 1
+00000000                             7  ; #define TDRE 2
+00000000                             8  ; #define MENU "\nMenu\n\r 1. Addition\n\r 2. Subtraction\n\r 3. Multiplication\n\r 4. Division\n\r"
+00000000                             9  ; #define answer "Result: "
+00000000                            10  ; #define MSG0 "Single Digit Result Addition"
+00000000                            11  ; #define MSG1 "Enter First Number: "
+00000000                            12  ; #define MSG2 "Enter Second Number: "
+00000000                            13  ; #define MSG3 " + "
+00000000                            14  ; #define MSG4 " = "
+00000000                            15  ; #define MSG5 "Add Again?"
+00000000                            16  ; #define MSG6 "Goodbye!"
+00000000                            17  ; #define MSG7 "Num1: "
+00000000                            18  ; #define MSG8 "Num2: "
+00000000                            19  ; #define CR   0x0D
+00000000                            20  ; #define LF   0x0A
+00000000                            21  ; //Protocols
+00000000                            22  ; unsigned char getchar(void);
+00000000                            23  ; void sendchar(unsigned char c);
+00000000                            24  ; void sendmsg(unsigned int msga);
+00000000                            25  ; void newline(void);
+00000000                            26  ; //Main Code
+00000000                            27  ; void main()
+00000000                            28  ; {
+00000000                            29  
+00004C00                            30      org $4C00
+00004C00                            31  _main:
+00004C00  48E7 3F3C                 32         movem.l   D2/D3/D4/D5/D6/D7/A2/A3/A4/A5,-(A7)
+00004C04  45F9 00004FAC             33         lea       _newline.L,A2
+00004C0A  47F9 00004F7A             34         lea       _sendmsg.L,A3
+00004C10  49F9 00004F22             35         lea       _sendchar.L,A4
+00004C16  4BF9 00004EEA             36         lea       _getchar.L,A5
+00004C1C                            37  ; unsigned char choice;
+00004C1C                            38  ; unsigned char num1 = 0;
+00004C1C  4204                      39         clr.b     D4
+00004C1E                            40  ; unsigned char num2 = 0;
+00004C1E  4203                      41         clr.b     D3
+00004C20                            42  ; unsigned char ASCII = 0;
+00004C20  4202                      43         clr.b     D2
+00004C22                            44  ; unsigned char result = 0;
+00004C22  4205                      45         clr.b     D5
+00004C24                            46  ; unsigned char again = 'Y';
+00004C24  7C59                      47         moveq     #89,D6
+00004C26                            48  ; while(again == 'Y' || again == 'y')
+00004C26                            49  main_1:
+00004C26  BC3C 0059                 50         cmp.b     #89,D6
+00004C2A  6708                      51         beq.s     main_4
+00004C2C  BC3C 0079                 52         cmp.b     #121,D6
+00004C30  6600 02A4                 53         bne       main_3
+00004C34                            54  main_4:
+00004C34                            55  ; {
+00004C34                            56  ; newline();
+00004C34  4E92                      57         jsr       (A2)
+00004C36                            58  ; sendmsg(&MENU);
+00004C36  4879 00004FC2             59         pea       io_1.L
+00004C3C  4E93                      60         jsr       (A3)
+00004C3E  584F                      61         addq.w    #4,A7
+00004C40                            62  ; newline();
+00004C40  4E92                      63         jsr       (A2)
+00004C42                            64  ; choice = getchar();
+00004C42  4E95                      65         jsr       (A5)
+00004C44  1E00                      66         move.b    D0,D7
+00004C46                            67  ; sendchar(choice);
+00004C46  CEBC 000000FF             68         and.l     #255,D7
+00004C4C  2F07                      69         move.l    D7,-(A7)
+00004C4E  4E94                      70         jsr       (A4)
+00004C50  584F                      71         addq.w    #4,A7
+00004C52                            72  ; switch(choice)
+00004C52  CEBC 000000FF             73         and.l     #255,D7
+00004C58  2007                      74         move.l    D7,D0
+00004C5A  0480 00000031             75         sub.l     #49,D0
+00004C60  6500 0270                 76         blo       main_6
+00004C64  B0BC 00000004             77         cmp.l     #4,D0
+00004C6A  6400 0266                 78         bhs       main_6
+00004C6E  E380                      79         asl.l     #1,D0
+00004C70  303B 0806                 80         move.w    main_7(PC,D0.L),D0
+00004C74  4EFB 0002                 81         jmp       main_7(PC,D0.W)
+00004C78                            82  main_7:
+00004C78= 0008                      83         dc.w      main_8-main_7
+00004C7A= 008A                      84         dc.w      main_9-main_7
+00004C7C= 010C                      85         dc.w      main_10-main_7
+00004C7E= 0196                      86         dc.w      main_11-main_7
+00004C80                            87  main_8:
+00004C80                            88  ; {
+00004C80                            89  ; case '1':          //addition
+00004C80                            90  ; newline();
+00004C80  4E92                      91         jsr       (A2)
+00004C82                            92  ; sendmsg(&MSG1);
+00004C82  4879 0000500B             93         pea       io_2.L
+00004C88  4E93                      94         jsr       (A3)
+00004C8A  584F                      95         addq.w    #4,A7
+00004C8C                            96  ; ASCII = getchar();
+00004C8C  4E95                      97         jsr       (A5)
+00004C8E  1400                      98         move.b    D0,D2
+00004C90                            99  ; sendchar(ASCII);
+00004C90  C4BC 000000FF            100         and.l     #255,D2
+00004C96  2F02                     101         move.l    D2,-(A7)
+00004C98  4E94                     102         jsr       (A4)
+00004C9A  584F                     103         addq.w    #4,A7
+00004C9C                           104  ; num1 = ASCII - 48;
+00004C9C  1002                     105         move.b    D2,D0
+00004C9E  0400 0030                106         sub.b     #48,D0
+00004CA2  1800                     107         move.b    D0,D4
+00004CA4                           108  ; newline();
+00004CA4  4E92                     109         jsr       (A2)
+00004CA6                           110  ; sendmsg(&MSG2);
+00004CA6  4879 00005020            111         pea       io_3.L
+00004CAC  4E93                     112         jsr       (A3)
+00004CAE  584F                     113         addq.w    #4,A7
+00004CB0                           114  ; ASCII = getchar();
+00004CB0  4E95                     115         jsr       (A5)
+00004CB2  1400                     116         move.b    D0,D2
+00004CB4                           117  ; sendchar(ASCII);
+00004CB4  C4BC 000000FF            118         and.l     #255,D2
+00004CBA  2F02                     119         move.l    D2,-(A7)
+00004CBC  4E94                     120         jsr       (A4)
+00004CBE  584F                     121         addq.w    #4,A7
+00004CC0                           122  ; num2 = ASCII - 48;
+00004CC0  1002                     123         move.b    D2,D0
+00004CC2  0400 0030                124         sub.b     #48,D0
+00004CC6  1600                     125         move.b    D0,D3
+00004CC8                           126  ; result = num1 + num2;
+00004CC8  1004                     127         move.b    D4,D0
+00004CCA  D003                     128         add.b     D3,D0
+00004CCC  1A00                     129         move.b    D0,D5
+00004CCE                           130  ; newline();
+00004CCE  4E92                     131         jsr       (A2)
+00004CD0                           132  ; sendmsg(&answer);
+00004CD0  4879 00005036            133         pea       io_4.L
+00004CD6  4E93                     134         jsr       (A3)
+00004CD8  584F                     135         addq.w    #4,A7
+00004CDA                           136  ; sendchar(result + 48);
+00004CDA  1205                     137         move.b    D5,D1
+00004CDC  0601 0030                138         add.b     #48,D1
+00004CE0  C2BC 000000FF            139         and.l     #255,D1
+00004CE6  2F01                     140         move.l    D1,-(A7)
+00004CE8  4E94                     141         jsr       (A4)
+00004CEA  584F                     142         addq.w    #4,A7
+00004CEC                           143  ; newline();
+00004CEC  4E92                     144         jsr       (A2)
+00004CEE                           145  ; sendmsg(&MSG5);
+00004CEE  4879 0000503F            146         pea       io_5.L
+00004CF4  4E93                     147         jsr       (A3)
+00004CF6  584F                     148         addq.w    #4,A7
+00004CF8                           149  ; newline();
+00004CF8  4E92                     150         jsr       (A2)
+00004CFA                           151  ; again = getchar();
+00004CFA  4E95                     152         jsr       (A5)
+00004CFC  1C00                     153         move.b    D0,D6
+00004CFE                           154  ; break;
+00004CFE  6000 01D2                155         bra       main_6
+00004D02                           156  main_9:
+00004D02                           157  ; case '2':           //subtraction
+00004D02                           158  ; newline();
+00004D02  4E92                     159         jsr       (A2)
+00004D04                           160  ; sendmsg(&MSG1);
+00004D04  4879 0000500B            161         pea       io_2.L
+00004D0A  4E93                     162         jsr       (A3)
+00004D0C  584F                     163         addq.w    #4,A7
+00004D0E                           164  ; ASCII = getchar();
+00004D0E  4E95                     165         jsr       (A5)
+00004D10  1400                     166         move.b    D0,D2
+00004D12                           167  ; sendchar(ASCII);
+00004D12  C4BC 000000FF            168         and.l     #255,D2
+00004D18  2F02                     169         move.l    D2,-(A7)
+00004D1A  4E94                     170         jsr       (A4)
+00004D1C  584F                     171         addq.w    #4,A7
+00004D1E                           172  ; num1 = ASCII - 48;
+00004D1E  1002                     173         move.b    D2,D0
+00004D20  0400 0030                174         sub.b     #48,D0
+00004D24  1800                     175         move.b    D0,D4
+00004D26                           176  ; newline();
+00004D26  4E92                     177         jsr       (A2)
+00004D28                           178  ; sendmsg(&MSG2);
+00004D28  4879 00005020            179         pea       io_3.L
+00004D2E  4E93                     180         jsr       (A3)
+00004D30  584F                     181         addq.w    #4,A7
+00004D32                           182  ; ASCII = getchar();
+00004D32  4E95                     183         jsr       (A5)
+00004D34  1400                     184         move.b    D0,D2
+00004D36                           185  ; sendchar(ASCII);
+00004D36  C4BC 000000FF            186         and.l     #255,D2
+00004D3C  2F02                     187         move.l    D2,-(A7)
+00004D3E  4E94                     188         jsr       (A4)
+00004D40  584F                     189         addq.w    #4,A7
+00004D42                           190  ; num2 = ASCII - 48;
+00004D42  1002                     191         move.b    D2,D0
+00004D44  0400 0030                192         sub.b     #48,D0
+00004D48  1600                     193         move.b    D0,D3
+00004D4A                           194  ; result = num1 - num2;
+00004D4A  1004                     195         move.b    D4,D0
+00004D4C  9003                     196         sub.b     D3,D0
+00004D4E  1A00                     197         move.b    D0,D5
+00004D50                           198  ; newline();
+00004D50  4E92                     199         jsr       (A2)
+00004D52                           200  ; sendmsg(&answer);
+00004D52  4879 00005036            201         pea       io_4.L
+00004D58  4E93                     202         jsr       (A3)
+00004D5A  584F                     203         addq.w    #4,A7
+00004D5C                           204  ; sendchar(result + 48);
+00004D5C  1205                     205         move.b    D5,D1
+00004D5E  0601 0030                206         add.b     #48,D1
+00004D62  C2BC 000000FF            207         and.l     #255,D1
+00004D68  2F01                     208         move.l    D1,-(A7)
+00004D6A  4E94                     209         jsr       (A4)
+00004D6C  584F                     210         addq.w    #4,A7
+00004D6E                           211  ; newline();
+00004D6E  4E92                     212         jsr       (A2)
+00004D70                           213  ; sendmsg(&MSG5);
+00004D70  4879 0000503F            214         pea       io_5.L
+00004D76  4E93                     215         jsr       (A3)
+00004D78  584F                     216         addq.w    #4,A7
+00004D7A                           217  ; newline();
+00004D7A  4E92                     218         jsr       (A2)
+00004D7C                           219  ; again = getchar();
+00004D7C  4E95                     220         jsr       (A5)
+00004D7E  1C00                     221         move.b    D0,D6
+00004D80                           222  ; break;
+00004D80  6000 0150                223         bra       main_6
+00004D84                           224  main_10:
+00004D84                           225  ; case '3':           //multiplication
+00004D84                           226  ; newline();
+00004D84  4E92                     227         jsr       (A2)
+00004D86                           228  ; sendmsg(&MSG1);
+00004D86  4879 0000500B            229         pea       io_2.L
+00004D8C  4E93                     230         jsr       (A3)
+00004D8E  584F                     231         addq.w    #4,A7
+00004D90                           232  ; ASCII = getchar();
+00004D90  4E95                     233         jsr       (A5)
+00004D92  1400                     234         move.b    D0,D2
+00004D94                           235  ; sendchar(ASCII);
+00004D94  C4BC 000000FF            236         and.l     #255,D2
+00004D9A  2F02                     237         move.l    D2,-(A7)
+00004D9C  4E94                     238         jsr       (A4)
+00004D9E  584F                     239         addq.w    #4,A7
+00004DA0                           240  ; num1 = ASCII - 48;
+00004DA0  1002                     241         move.b    D2,D0
+00004DA2  0400 0030                242         sub.b     #48,D0
+00004DA6  1800                     243         move.b    D0,D4
+00004DA8                           244  ; newline();
+00004DA8  4E92                     245         jsr       (A2)
+00004DAA                           246  ; sendmsg(&MSG2);
+00004DAA  4879 00005020            247         pea       io_3.L
+00004DB0  4E93                     248         jsr       (A3)
+00004DB2  584F                     249         addq.w    #4,A7
+00004DB4                           250  ; ASCII = getchar();
+00004DB4  4E95                     251         jsr       (A5)
+00004DB6  1400                     252         move.b    D0,D2
+00004DB8                           253  ; sendchar(ASCII);
+00004DB8  C4BC 000000FF            254         and.l     #255,D2
+00004DBE  2F02                     255         move.l    D2,-(A7)
+00004DC0  4E94                     256         jsr       (A4)
+00004DC2  584F                     257         addq.w    #4,A7
+00004DC4                           258  ; num2 = ASCII - 48;
+00004DC4  1002                     259         move.b    D2,D0
+00004DC6  0400 0030                260         sub.b     #48,D0
+00004DCA  1600                     261         move.b    D0,D3
+00004DCC                           262  ; result = num1 * num2;
+00004DCC  1004                     263         move.b    D4,D0
+00004DCE  C07C 00FF                264         and.w     #255,D0
+00004DD2  C67C 00FF                265         and.w     #255,D3
+00004DD6  C0C3                     266         mulu.w    D3,D0
+00004DD8  1A00                     267         move.b    D0,D5
+00004DDA                           268  ; newline();
+00004DDA  4E92                     269         jsr       (A2)
+00004DDC                           270  ; sendmsg(&answer);
+00004DDC  4879 00005036            271         pea       io_4.L
+00004DE2  4E93                     272         jsr       (A3)
+00004DE4  584F                     273         addq.w    #4,A7
+00004DE6                           274  ; sendchar(result + 48);
+00004DE6  1205                     275         move.b    D5,D1
+00004DE8  0601 0030                276         add.b     #48,D1
+00004DEC  C2BC 000000FF            277         and.l     #255,D1
+00004DF2  2F01                     278         move.l    D1,-(A7)
+00004DF4  4E94                     279         jsr       (A4)
+00004DF6  584F                     280         addq.w    #4,A7
+00004DF8                           281  ; newline();
+00004DF8  4E92                     282         jsr       (A2)
+00004DFA                           283  ; sendmsg(&MSG5);
+00004DFA  4879 0000503F            284         pea       io_5.L
+00004E00  4E93                     285         jsr       (A3)
+00004E02  584F                     286         addq.w    #4,A7
+00004E04                           287  ; newline();
+00004E04  4E92                     288         jsr       (A2)
+00004E06                           289  ; again = getchar();
+00004E06  4E95                     290         jsr       (A5)
+00004E08  1C00                     291         move.b    D0,D6
+00004E0A                           292  ; break;
+00004E0A  6000 00C6                293         bra       main_6
+00004E0E                           294  main_11:
+00004E0E                           295  ; case '4':           //division
+00004E0E                           296  ; newline();
+00004E0E  4E92                     297         jsr       (A2)
+00004E10                           298  ; sendmsg(&MSG1);
+00004E10  4879 0000500B            299         pea       io_2.L
+00004E16  4E93                     300         jsr       (A3)
+00004E18  584F                     301         addq.w    #4,A7
+00004E1A                           302  ; ASCII = getchar();
+00004E1A  4E95                     303         jsr       (A5)
+00004E1C  1400                     304         move.b    D0,D2
+00004E1E                           305  ; sendchar(ASCII);
+00004E1E  C4BC 000000FF            306         and.l     #255,D2
+00004E24  2F02                     307         move.l    D2,-(A7)
+00004E26  4E94                     308         jsr       (A4)
+00004E28  584F                     309         addq.w    #4,A7
+00004E2A                           310  ; num1 = ASCII - 48;
+00004E2A  1002                     311         move.b    D2,D0
+00004E2C  0400 0030                312         sub.b     #48,D0
+00004E30  1800                     313         move.b    D0,D4
+00004E32                           314  ; newline();
+00004E32  4E92                     315         jsr       (A2)
+00004E34                           316  ; sendmsg(&MSG2);
+00004E34  4879 00005020            317         pea       io_3.L
+00004E3A  4E93                     318         jsr       (A3)
+00004E3C  584F                     319         addq.w    #4,A7
+00004E3E                           320  ; ASCII = 0;
+00004E3E  4202                     321         clr.b     D2
+00004E40                           322  ; ASCII = getchar();
+00004E40  4E95                     323         jsr       (A5)
+00004E42  1400                     324         move.b    D0,D2
+00004E44                           325  ; sendchar(ASCII);
+00004E44  C4BC 000000FF            326         and.l     #255,D2
+00004E4A  2F02                     327         move.l    D2,-(A7)
+00004E4C  4E94                     328         jsr       (A4)
+00004E4E  584F                     329         addq.w    #4,A7
+00004E50                           330  ; num2 = ASCII - 48;
+00004E50  1002                     331         move.b    D2,D0
+00004E52  0400 0030                332         sub.b     #48,D0
+00004E56  1600                     333         move.b    D0,D3
+00004E58                           334  ; sendmsg(&MSG7);
+00004E58  4879 0000504A            335         pea       io_6.L
+00004E5E  4E93                     336         jsr       (A3)
+00004E60  584F                     337         addq.w    #4,A7
+00004E62                           338  ; newline();
+00004E62  4E92                     339         jsr       (A2)
+00004E64                           340  ; sendchar(num1 + 48);
+00004E64  1204                     341         move.b    D4,D1
+00004E66  0601 0030                342         add.b     #48,D1
+00004E6A  C2BC 000000FF            343         and.l     #255,D1
+00004E70  2F01                     344         move.l    D1,-(A7)
+00004E72  4E94                     345         jsr       (A4)
+00004E74  584F                     346         addq.w    #4,A7
+00004E76                           347  ; newline();
+00004E76  4E92                     348         jsr       (A2)
+00004E78                           349  ; sendmsg(&MSG8);
+00004E78  4879 00005051            350         pea       io_7.L
+00004E7E  4E93                     351         jsr       (A3)
+00004E80  584F                     352         addq.w    #4,A7
+00004E82                           353  ; sendchar(num2 + 48);
+00004E82  1203                     354         move.b    D3,D1
+00004E84  0601 0030                355         add.b     #48,D1
+00004E88  C2BC 000000FF            356         and.l     #255,D1
+00004E8E  2F01                     357         move.l    D1,-(A7)
+00004E90  4E94                     358         jsr       (A4)
+00004E92  584F                     359         addq.w    #4,A7
+00004E94                           360  ; newline();
+00004E94  4E92                     361         jsr       (A2)
+00004E96                           362  ; result = num1 / num2;
+00004E96  1004                     363         move.b    D4,D0
+00004E98  C0BC 0000FFFF            364         and.l     #65535,D0
+00004E9E  80C3                     365         divu.w    D3,D0
+00004EA0  1A00                     366         move.b    D0,D5
+00004EA2                           367  ; newline();
+00004EA2  4E92                     368         jsr       (A2)
+00004EA4                           369  ; sendmsg(&answer);
+00004EA4  4879 00005036            370         pea       io_4.L
+00004EAA  4E93                     371         jsr       (A3)
+00004EAC  584F                     372         addq.w    #4,A7
+00004EAE                           373  ; //sendchar(result);
+00004EAE                           374  ; //result = result + 48;
+00004EAE                           375  ; sendchar(result + 48);
+00004EAE  1205                     376         move.b    D5,D1
+00004EB0  0601 0030                377         add.b     #48,D1
+00004EB4  C2BC 000000FF            378         and.l     #255,D1
+00004EBA  2F01                     379         move.l    D1,-(A7)
+00004EBC  4E94                     380         jsr       (A4)
+00004EBE  584F                     381         addq.w    #4,A7
+00004EC0                           382  ; newline();
+00004EC0  4E92                     383         jsr       (A2)
+00004EC2                           384  ; sendmsg(&MSG5);
+00004EC2  4879 0000503F            385         pea       io_5.L
+00004EC8  4E93                     386         jsr       (A3)
+00004ECA  584F                     387         addq.w    #4,A7
+00004ECC                           388  ; newline();
+00004ECC  4E92                     389         jsr       (A2)
+00004ECE                           390  ; again = getchar();
+00004ECE  4E95                     391         jsr       (A5)
+00004ED0  1C00                     392         move.b    D0,D6
+00004ED2                           393  ; break;
+00004ED2                           394  main_6:
+00004ED2  6000 FD52                395         bra       main_1
+00004ED6                           396  main_3:
+00004ED6                           397  ; }
+00004ED6                           398  ; }
+00004ED6                           399  ; sendmsg(&MSG6);
+00004ED6  4879 00005058            400         pea       io_8.L
+00004EDC  4E93                     401         jsr       (A3)
+00004EDE  584F                     402         addq.w    #4,A7
+00004EE0                           403  ; newline();
+00004EE0  4E92                     404         jsr       (A2)
+00004EE2  4CDF 3CFC                405         movem.l   (A7)+,D2/D3/D4/D5/D6/D7/A2/A3/A4/A5
+00004EE6  4EF8 1000                406         JMP        $1000
+00004EEA                           407  ; }
+00004EEA                           408  ; //Subroutine to get a character typed into Hyperterminal
+00004EEA                           409  ; unsigned char getchar()
+00004EEA                           410  ; {
+00004EEA                           411  
+00004EEA                           412  _getchar:
+00004EEA  4E56 FFF8                413         link      A6,#-8
+00004EEE  2F02                     414         move.l    D2,-(A7)
+00004EF0                           415  ; unsigned char temp = 0;
+00004EF0  4202                     416         clr.b     D2
+00004EF2                           417  ; unsigned char * const C = (unsigned char *) ACIAC;
+00004EF2  2D7C 00008001 FFF8       418         move.l    #32769,-8(A6)
+00004EFA                           419  ; unsigned char * const D = (unsigned char *) ACIAD;
+00004EFA  2D7C 00008003 FFFC       420         move.l    #32771,-4(A6)
+00004F02                           421  ; while (temp == 0) {temp = *C & RDRF;}
+00004F02                           422  getchar_1:
+00004F02  4A02                     423         tst.b     D2
+00004F04  660E                     424         bne.s     getchar_3
+00004F06  206E FFF8                425         move.l    -8(A6),A0
+00004F0A  1010                     426         move.b    (A0),D0
+00004F0C  C03C 0001                427         and.b     #1,D0
+00004F10  1400                     428         move.b    D0,D2
+00004F12  60EE                     429         bra       getchar_1
+00004F14                           430  getchar_3:
+00004F14                           431  ; temp = *D;
+00004F14  206E FFFC                432         move.l    -4(A6),A0
+00004F18  1410                     433         move.b    (A0),D2
+00004F1A                           434  ; return temp;
+00004F1A  1002                     435         move.b    D2,D0
+00004F1C  241F                     436         move.l    (A7)+,D2
+00004F1E  4E5E                     437         unlk      A6
+00004F20  4E75                     438         rts
+00004F22                           439  ; }
+00004F22                           440  ; //Subroutine to send a character to Hyperterminal
+00004F22                           441  ; void sendchar(unsigned char asciiout)
+00004F22                           442  ; {
+00004F22                           443  
+00004F22                           444  _sendchar:
+00004F22  4E56 FFFC                445         link      A6,#-4
+00004F26  48E7 3800                446         movem.l   D2/D3/D4,-(A7)
+00004F2A                           447  ; unsigned char temp = 0;
+00004F2A  4202                     448         clr.b     D2
+00004F2C                           449  ; unsigned char dummyread = 0;
+00004F2C  422E FFFF                450         clr.b     -1(A6)
+00004F30                           451  ; unsigned char * const C = (unsigned char *) ACIAC;
+00004F30  263C 00008001            452         move.l    #32769,D3
+00004F36                           453  ; unsigned char * const D = (unsigned char *) ACIAD;
+00004F36  283C 00008003            454         move.l    #32771,D4
+00004F3C                           455  ; temp = *C & RDRF;
+00004F3C  2043                     456         move.l    D3,A0
+00004F3E  1010                     457         move.b    (A0),D0
+00004F40  C03C 0001                458         and.b     #1,D0
+00004F44  1400                     459         move.b    D0,D2
+00004F46                           460  ; while (temp != 0)
+00004F46                           461  sendchar_1:
+00004F46  4A02                     462         tst.b     D2
+00004F48  6712                     463         beq.s     sendchar_3
+00004F4A                           464  ; {
+00004F4A                           465  ; dummyread = *D;
+00004F4A  2044                     466         move.l    D4,A0
+00004F4C  1D50 FFFF                467         move.b    (A0),-1(A6)
+00004F50                           468  ; temp = *C & RDRF;
+00004F50  2043                     469         move.l    D3,A0
+00004F52  1010                     470         move.b    (A0),D0
+00004F54  C03C 0001                471         and.b     #1,D0
+00004F58  1400                     472         move.b    D0,D2
+00004F5A  60EA                     473         bra       sendchar_1
+00004F5C                           474  sendchar_3:
+00004F5C                           475  ; }
+00004F5C                           476  ; while (temp == 0) {temp = *C & TDRE;}
+00004F5C                           477  sendchar_4:
+00004F5C  4A02                     478         tst.b     D2
+00004F5E  660C                     479         bne.s     sendchar_6
+00004F60  2043                     480         move.l    D3,A0
+00004F62  1010                     481         move.b    (A0),D0
+00004F64  C03C 0002                482         and.b     #2,D0
+00004F68  1400                     483         move.b    D0,D2
+00004F6A  60F0                     484         bra       sendchar_4
+00004F6C                           485  sendchar_6:
+00004F6C                           486  ; *D = asciiout;
+00004F6C  2044                     487         move.l    D4,A0
+00004F6E  10AE 000B                488         move.b    11(A6),(A0)
+00004F72  4CDF 001C                489         movem.l   (A7)+,D2/D3/D4
+00004F76  4E5E                     490         unlk      A6
+00004F78  4E75                     491         rts
+00004F7A                           492  ; }
+00004F7A                           493  ; //Subroutine to send a message string to Hyperterminal
+00004F7A                           494  ; void sendmsg(unsigned int msg)
+00004F7A                           495  ; {
+00004F7A                           496  
+00004F7A                           497  _sendmsg:
+00004F7A  4E56 0000                498         link      A6,#0
+00004F7E  48E7 3000                499         movem.l   D2/D3,-(A7)
+00004F82                           500  ; unsigned char * strptr = (unsigned char *) msg;
+00004F82  262E 0008                501         move.l    8(A6),D3
+00004F86                           502  ; unsigned char ASCII = *strptr;
+00004F86  2043                     503         move.l    D3,A0
+00004F88  1410                     504         move.b    (A0),D2
+00004F8A                           505  ; while (ASCII != 0)
+00004F8A                           506  sendmsg_1:
+00004F8A  4A02                     507         tst.b     D2
+00004F8C  6716                     508         beq.s     sendmsg_3
+00004F8E                           509  ; {
+00004F8E                           510  ; sendchar(ASCII);
+00004F8E  C4BC 000000FF            511         and.l     #255,D2
+00004F94  2F02                     512         move.l    D2,-(A7)
+00004F96  4EB8 4F22                513         jsr       _sendchar
+00004F9A  584F                     514         addq.w    #4,A7
+00004F9C                           515  ; strptr = strptr + 1;
+00004F9C  5283                     516         addq.l    #1,D3
+00004F9E                           517  ; ASCII = *strptr;
+00004F9E  2043                     518         move.l    D3,A0
+00004FA0  1410                     519         move.b    (A0),D2
+00004FA2  60E6                     520         bra       sendmsg_1
+00004FA4                           521  sendmsg_3:
+00004FA4  4CDF 000C                522         movem.l   (A7)+,D2/D3
+00004FA8  4E5E                     523         unlk      A6
+00004FAA  4E75                     524         rts
+00004FAC                           525  ; }
+00004FAC                           526  ; }
+00004FAC                           527  ; //Subroutine to start a new line in Hyperterminal
+00004FAC                           528  ; void newline()
+00004FAC                           529  ; {
+00004FAC                           530  
+00004FAC                           531  _newline:
+00004FAC                           532  ; sendchar(LF);
+00004FAC  4878 000A                533         pea       10
+00004FB0  4EB8 4F22                534         jsr       _sendchar
+00004FB4  584F                     535         addq.w    #4,A7
+00004FB6                           536  ; sendchar(CR);
+00004FB6  4878 000D                537         pea       13
+00004FBA  4EB8 4F22                538         jsr       _sendchar
+00004FBE  584F                     539         addq.w    #4,A7
+00004FC0  4E75                     540         rts
+00004FC2                           541  ; }
+00004FC2                           542  
+00004FC2                           543  io_1:
+00004FC2= 0A 4D 65 6E 75 0A ...    544         dc.b      10,77,101,110,117,10,13,32,49,46,32,65,100,100
+00004FD0= 69 74 69 6F 6E 0A ...    545         dc.b      105,116,105,111,110,10,13,32,50,46,32,83,117
+00004FDD= 62 74 72 61 63 74 ...    546         dc.b      98,116,114,97,99,116,105,111,110,10,13,32,51
+00004FEA= 2E 20 4D 75 6C 74 ...    547         dc.b      46,32,77,117,108,116,105,112,108,105,99,97,116
+00004FF7= 69 6F 6E 0A 0D 20 ...    548         dc.b      105,111,110,10,13,32,52,46,32,68,105,118,105
+00005004= 73 69 6F 6E 0A 0D 00     549         dc.b      115,105,111,110,10,13,0
+0000500B                           550  io_2:
+0000500B= 45 6E 74 65 72 20 ...    551         dc.b      69,110,116,101,114,32,70,105,114,115,116,32
+00005017= 4E 75 6D 62 65 72 ...    552         dc.b      78,117,109,98,101,114,58,32,0
+00005020                           553  io_3:
+00005020= 45 6E 74 65 72 20 ...    554         dc.b      69,110,116,101,114,32,83,101,99,111,110,100
+0000502C= 20 4E 75 6D 62 65 ...    555         dc.b      32,78,117,109,98,101,114,58,32,0
+00005036                           556  io_4:
+00005036= 52 65 73 75 6C 74 ...    557         dc.b      82,101,115,117,108,116,58,32,0
+0000503F                           558  io_5:
+0000503F= 41 64 64 20 41 67 ...    559         dc.b      65,100,100,32,65,103,97,105,110,63,0
+0000504A                           560  io_6:
+0000504A= 4E 75 6D 31 3A 20 00     561         dc.b      78,117,109,49,58,32,0
+00005051                           562  io_7:
+00005051= 4E 75 6D 32 3A 20 00     563         dc.b      78,117,109,50,58,32,0
+00005058                           564  io_8:
+00005058= 47 6F 6F 64 62 79 ...    565         dc.b      71,111,111,100,98,121,101,33,0
+Line 566 WARNING: END directive missing, starting address not set
+
+No errors detected
+1 warning generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+GETCHAR_1           4F02
+GETCHAR_3           4F14
+IO_1                4FC2
+IO_2                500B
+IO_3                5020
+IO_4                5036
+IO_5                503F
+IO_6                504A
+IO_7                5051
+IO_8                5058
+MAIN_1              4C26
+MAIN_10             4D84
+MAIN_11             4E0E
+MAIN_3              4ED6
+MAIN_4              4C34
+MAIN_6              4ED2
+MAIN_7              4C78
+MAIN_8              4C80
+MAIN_9              4D02
+SENDCHAR_1          4F46
+SENDCHAR_3          4F5C
+SENDCHAR_4          4F5C
+SENDCHAR_6          4F6C
+SENDMSG_1           4F8A
+SENDMSG_3           4FA4
+_GETCHAR            4EEA
+_MAIN               4C00
+_NEWLINE            4FAC
+_SENDCHAR           4F22
+_SENDMSG            4F7A
