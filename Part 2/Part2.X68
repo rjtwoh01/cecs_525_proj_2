@@ -54,7 +54,6 @@ BUFFER  	DS.B	256         	256 bytes for I/O buffer
  
  
         	ORG 	$1000       	Monitor Origin
-_RESET
 RESET:  	EQU 	*
         	LEA.L   DATA,A6     	A6 points to data area
         	MOVE.L  A6,TSK_T+56(A6) initialize A6 in the register Frame
@@ -1500,9 +1499,6 @@ COMTAB  DC.B	4,4         	HELP lists commands with discriptions
         DC.B	4,3 	        REG <reg> <value> loads <value>
         DC.B	'REG '      	into <reg> in TASK_T. Used to preset
         DC.L	REG_MOD-COMTAB  registers before a GO or GB
-        DC.B	5,5 	        REG <reg> <value> loads <value>
-        DC.B	'RESET'      	into <reg> in TASK_T. Used to preset
-        DC.L	RESET-COMTAB  registers before a GO or GB
         DC.B	0,0
  *=============================================================================
 *   This is a list of the information needed to setup the DCBs
