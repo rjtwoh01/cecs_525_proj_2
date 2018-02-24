@@ -75,23 +75,23 @@ RESET:  	EQU 	*
  
  
 RamTest
-	    	move.b #$FF, d5
+	    	move.l #$FFFFFFFF, d5
         	move.l #$4000, a0
-        	bsr    ClearRam
-                bsr    WriteRam
+        	;bsr    ClearRam
+                ;bsr    WriteRam
         	bra 	MemTestEnd
   
 ClearRam
-        	clr.b   (a0) 
-        	cmpi.b #0,(a0)+
+        	clr.l   (a0) 
+        	cmpi.l #0,(a0)+
         	bne 	RamClearError
-        	cmp.l   #$5001, a0
+        	cmp.l   #$5000, a0
         	bne 	ClearRam
         	rts
 	
 WriteRam
-        	move.b d5, -(a0)
-        	cmpi.b  #$FF, (a0)
+        	move.l d5, -(a0)
+        	cmpi.l  #$FFFFFFFF, (a0)
         	bne 	RamWriteError
         	cmp.l	#$4000, a0
         	bne 	WriteRam
@@ -109,7 +109,7 @@ RamClearError
         	bsr 	PSTRING
         	bsr 	NEWLINE      	
         	add     #$01,a0
-        	cmp.l   #$5001, a0
+        	cmp.l   #$5000, a0
         	bne 	ClearRam
         	rts
    
@@ -139,7 +139,7 @@ MemTestEnd
 *   ALU Test
  
 ALUTest:
-        	move.b #14, d1
+        	move.l #14, d1
    
         	bsr	Add
         	bsr	Subtract
@@ -148,25 +148,25 @@ ALUTest:
         	bra	 EndALUTest
  
 Add
-        	add.w  #7, d1
-        	cmpi.w #21, d1
+        	add.l  #7, d1
+        	cmpi.l #21, d1
         	bne 	AddingError
         	rts
 	
 Subtract
-        	sub.b  #7, d1
-        	cmpi.w  #14, d1
+        	sub.l  #7, d1
+        	cmpi.l  #14, d1
         	bne 	SubtractingError
         	rts
 Multiply
         	muls.w  #2, d1
-        	cmpi.w  #28, d1
+        	cmpi.l  #28, d1
         	bne 	MultiplicationError
         	rts
    
 Divide
         	divs.w  #2, d1
-        	cmpi.w  #14, d1
+        	cmpi.l  #14, d1
         	bne 	DivisionError
         	rts
    
@@ -1643,6 +1643,7 @@ _chr:
         DC.B  	1
       
         END   	RESET
+
 
 
 
