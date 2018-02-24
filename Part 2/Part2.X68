@@ -1250,9 +1250,11 @@ LOGON   EQU 	*
         MOVEM.L D0-D2/A3-A4,-(A7)   Save registers to stack
         CLR.L   D0          	Clear attempt count
 *       CLR.L   STAR(A6)    	Clear STAR ECHO
+        CLR.L   D6
+        MOVE.L  #6, D6
 LOG1    CLR.L   D2          	Clear user match
         CLR.L   D7          	Clear error flag
-        CMP.L   #3,D0       	if too many attempts
+        CMP.L   #3,D6       	if too many attempts
         BEQ 	LOGF            	goto failure
         BSR 	NEWLINE
         LEA.L   LOGM(PC),A4
@@ -1274,7 +1276,7 @@ LOG1    CLR.L   D2          	Clear user match
         ADD.L   D2,D1       	Add two match flags together
         CMP.L   #2,D1       	If both are set
         BEQ 	LOGS        	Success
-        ADD.L   #1,D0       	Else increment attempt count
+        ADD.L   #1,D6       	Else increment attempt count
         BRA 	LOG1        	And loop
 LOGF    RESET               	Reset on login failure
 LOGS    MOVEM.L (A7)+,D0-D2/A3-A4   Restore registers from stack
@@ -1639,6 +1641,7 @@ _chr:
         DC.B  	1
       
         END   	RESET
+
 
 
 
