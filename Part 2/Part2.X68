@@ -1278,7 +1278,9 @@ LOG1    CLR.L   D2          	Clear user match
         BEQ 	LOGS        	Success
         ADD.L   #1,D0       	Else increment attempt count
         BRA 	LOG1        	And loop
-LOGF    RESET               	Reset on login failure
+LOGF    LEA.L   LOGINERROR(PC),A4
+        BSR     PSTRING
+        RESET               	Reset on login failure
 LOGS    MOVEM.L (A7)+,D0-D2/A3-A4   Restore registers from stack
         RTS                 	Return on success
  
@@ -1581,6 +1583,7 @@ LOGM    DC.B	'USER NAME: ',0,0
 USERNA  DC.B	'PROJECT2',0
 PASSM   DC.B	'PASSWORD: ',0
 PASS    DC.B	'GROUP4',0
+LOGINERROR DC.B 'Failed to logon 3 times, going to reset',0
  
 tinywa1_1:
         DC.B 	84,83,66,85,71,32,50,32,86,101,114,115,105,111
@@ -1639,11 +1642,13 @@ MemTestSuccess
 ramErrorMessage	
         DC.B	  CR,LF
         DC.B	  'There was an error reading/writing in Ram at address: ',CR,LF,0
+        
  
 _chr:
         DC.B  	1
       
         END   	RESET
+
 
 
 
