@@ -1251,6 +1251,7 @@ LOGON   EQU 	*
         MOVEM.L D0-D2/A3-A4,-(A7)   Save registers to stack
         CLR.L   D0          	Clear attempt count
 *       CLR.L   STAR(A6)    	Clear STAR ECHO
+        MOVE.L  #0, D0
 LOG1    CLR.L   D2          	Clear user match
         CLR.L   D7          	Clear error flag
         CMP.L   #3,D0       	if too many attempts
@@ -1643,6 +1644,7 @@ _chr:
         DC.B  	1
       
         END   	RESET
+
 
 
 
