@@ -1,6 +1,6 @@
-00004C00 Starting Address
+00004C04 Starting Address
 Assembler used: EASy68K Editor/Assembler v5.15.04
-Created On: 2/24/2018 3:30:59 PM
+Created On: 2/25/2018 2:18:30 PM
 
 00000000                             1  
 00000000                             2  *-----------------------------------------------------------
@@ -9,193 +9,183 @@ Created On: 2/24/2018 3:30:59 PM
 00000000                             5  * Date       : 1/27/2018
 00000000                             6  * Description: PROJECT 1 PART 1
 00000000                             7  *-----------------------------------------------------------
-00004C00                             8      ORG    $4C00        ORIGIN IN MEMORY
-00004C00                             9  START:            
-00004C00                            10  
-00004C00  49F9 00004D2A             11      LEA     MESSAGE,A4  LOADS THE ADDRESS OF THE SAVED STRING INTO ADDRESS REGISTER 1 
-00004C06  123C 0004                 12      MOVE.B  #4,D1      PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
-00004C0A  4E40                      13      TRAP    #0         TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITH LF AND CR
-00004C0C                            14      
-00004C0C                            15  MENU:
-00004C0C  123C 0002                 16      move.b  #2,d1
-00004C10  4E40                      17      trap    #0
-00004C12  49F9 00004D54             18      LEA     MENUPROMPT,A4   LOADS THE ADDRESS FOR THE MENUPROMPT 
-00004C18  123C 0004                 19      MOVE.B  #4,D1          PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
-00004C1C  4E40                      20      TRAP    #0             TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITHOUT LF AND CR
-00004C1E                            21  
-00004C1E  123C 0000                 22      MOVE.B  #0,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
-00004C22  4E40                      23      TRAP    #0             TRAP COMMAND READS A NUMBER FROM THE KEYBOARD AND STORES IT INTO D1.L
-00004C24  49F9 00004E6C             24      LEA     SPACING,A4      LOADS A PREDETERMINED SPACING STRING
-00004C2A  123C 0004                 25      MOVE.B  #4,D1          PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
-00004C2E  4E40                      26      TRAP    #0             TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITH LF AND CR
-00004C30                            27      
-00004C30                            28      
-00004C30                            29  
-00004C30                            30      
-00004C30                            31      
-00004C30  B03C 0031                 32      CMP.b   #49,D0           COMPARES THE NUMBER CAPTURED ABOVE TO PRE-SELECTED INTEGERS TO BRANCH TO SUBROUTINES
-00004C34  6700 0038                 33      BEQ     ADD             BRANCH IF EQUAL TO ADDITION
-00004C38  B03C 0032                 34      CMP.b   #50,D0
-00004C3C  6700 0090                 35      BEQ     SUB             BRANCH IF EQUAL TO SUBTRACTION
-00004C40  B03C 0033                 36      CMP.b   #51,D0
-00004C44  6700 009C                 37      BEQ     MULTI           BRANCH IF EQUAL TO MULTIPLICATION
-00004C48  B03C 0034                 38      CMP.b   #52,D0
-00004C4C  6700 00A6                 39      BEQ     DIV             BRANCH IF EQUAL TO DIVISION
-00004C50  B03C 0035                 40      CMP.b   #53,D0       
-00004C54  6700 00B2                 41      BEQ     illegal            BRANCH IF EQUAL TO EXIT
-00004C58  B03C 0036                 42      CMP.b   #54,D0       
-00004C5C  6700 00BE                 43      BEQ     EXIT            BRANCH IF EQUAL TO EXIT
-00004C60                            44  
-00004C60                            45       
-00004C60                            46  
-00004C60                            47  ERROR:                      ;SHOULD NOTHING EQUAL, PROGRAM RUNS INTO AN ERROR MESSAGE AND LOOPS BACK
-00004C60                            48  
-00004C60                            49  
-00004C60  49F9 00004E4C             50      LEA     ERRORPROMPT,A4  LOADS STRING ADDRESS
-00004C66  123C 0004                 51      MOVE.B  #4,D1
-00004C6A  4E40                      52      TRAP    #0
-00004C6C  609E                      53      BRA     MENU            
-00004C6E                            54  ADD:
-00004C6E                            55  
-00004C6E                            56  
-00004C6E  49F9 00004DDD             57      LEA     ADDPROMPT,A4    LOADS PROMPT FOR ADDITION
-00004C74  123C 0004                 58      MOVE.B  #4,D1          
-00004C78  4E40                      59      TRAP    #0
-00004C7A  49F9 00004E6C             60      LEA     SPACING,A4      LOADS A SPACING FORMAT FOR ASTHETICS
-00004C80  123C 0004                 61      MOVE.B  #4,D1
-00004C84  4E40                      62      TRAP    #0
-00004C86  123C 0000                 63      MOVE.B  #0,D1           CAPTURES A NUMBER FROM THE KEYBOARD (STORED IN DATA REGISTER 1)
-00004C8A  4E40                      64      TRAP    #0
-00004C8C  49F9 00004E99             65      LEA     ADDSIGN,A4      ADDITION SIGN IS DISPLAYED
-00004C92  123C 0004                 66      MOVE.B  #4,D1
-00004C96  4E40                      67      TRAP    #0
-00004C98  2400                      68      MOVE.L  D0,D2           MOVE DATA FROM THE FIRST NUMBER TO DATA REGISTER 2 FROM DATA REGISTER 1
-00004C9A  123C 0000                 69      MOVE.B  #0,D1           CAPTURE ANOTHER NUMBER  FROM THE KEYBOARD (STORED IN DATA REGISTER 1)
-00004C9E  4E40                      70      TRAP    #0
-00004CA0  2600                      71      MOVE.L  D0,D3           MOVE DATA FROM DATA REGISTER 1 TO DATA REGISTER 3
-00004CA2  D682                      72      ADD.L   D2,D3           ADD DATA FROM REGISTER 2 TO REGISTER 3
-00004CA4  49F9 00004E93             73      LEA     EQUALSIGN,A4    EQUAL SIGN IS DISPLAYED
-00004CAA  123C 0004                 74      MOVE.B  #4,D1
-00004CAE  4E40                      75      TRAP    #0
-00004CB0  2003                      76      MOVE.L  D3,D0           MOVE THE ADDED NUMBER FROM REGISTER 3 TO REGISTER 1
-00004CB2  0480 00000030             77      sub.l   #48,d0
-00004CB8  123C 0001                 78      MOVE.B  #1,D1           DISPLAY THE ANSWER OF THE ADDITION OPERATION
-00004CBC  4E40                      79      TRAP    #0
-00004CBE  49F9 00004E6C             80      LEA     SPACING,A4      SPACING FOR ASTHETICS
-00004CC4  123C 0004                 81      MOVE.B  #4,D1
-00004CC8  4E40                      82      TRAP    #0
-00004CCA  6000 FF40                 83      BRA     MENU            RETURN TO MAIN MENU
-00004CCE                            84      
-00004CCE                            85  SUB:
-00004CCE                            86      
-00004CCE                            87      
-00004CCE  49F9 00004E12             88      LEA     SUBPROMPT,A4    LOADS SUBTRATION PROMPT
-00004CD4  123C 0004                 89      MOVE.B  #4,D1
-00004CD8  4E40                      90      TRAP    #0
-00004CDA  027C DFFF                 91      ANDI.W  #$DFFF,SR
-00004CDE                            92  
-00004CDE  6000 FF2C                 93      BRA     Menu
-00004CE2                            94   
-00004CE2                            95  MULTI:
-00004CE2                            96  
-00004CE2                            97      
-00004CE2  49F9 00004E29             98      LEA     MULTIPROMPT,A4  LOADS MULTIPLICATION PROMP
-00004CE8  123C 0004                 99      MOVE.B  #4,D1
-00004CEC  4E40                     100      Trap    #0
-00004CEE  4E4E                     101      trap    #14
-00004CF0                           102  
-00004CF0  6000 FF1A                103      BRA     Menu
-00004CF4                           104      
-00004CF4                           105      
-00004CF4                           106  
-00004CF4                           107  DIV:
-00004CF4                           108     
-00004CF4  49F9 00004E37            109      LEA    DIVPROMPT,A4     LOADS DIVISION PROMPT
-00004CFA  103C 0004                110      MOVE.B  #4,D0
-00004CFE  4E40                     111      TRAP    #0
-00004D00  4EF8 0001                112      jmp     $0001
-00004D04                           113    
-00004D04  6000 FF06                114         BRA     MENU            RETURN TO MAIN 
-00004D08                           115      
-00004D08                           116  
-00004D08                           117  illegal:
-00004D08  49F9 00004EC5            118       LEA    illegalprompt,A4     LOADS DIVISION PROMPT
-00004D0E  103C 0004                119      MOVE.B  #4,D0
-00004D12  4E40                     120      TRAP    #0
-00004D14  4EF8 0000                121      jmp     $0000
-00004D18                           122   
-00004D18  6000 FEF2                123         BRA     MENU            RETURN TO MAIN 
-00004D1C                           124  
-00004D1C                           125      
-00004D1C                           126  EXIT
-00004D1C                           127  
-00004D1C                           128      
-00004D1C  49F9 00004EA3            129      LEA     GOODBYE,A4       LOADS EXIT MESSAGE
-00004D22  123C 0004                130      MOVE.B  #4,D1
-00004D26  4E40                     131      TRAP    #0          
-00004D28  4E4F                     132      TRAP    #15 
-00004D2A                           133  
-00004D2A                           134     
-00004D2A                           135    
-00004D2A  =0000000D                136  CR  EQU $0D
-00004D2A  =0000000A                137  LF  EQU $0A   
-00004D2A                           138  
-00004D2A                           139  MESSAGE 
-00004D2A= 0D 0A                    140           DC.B    '',CR,LF
-00004D2C= 55 73 65 72 20 4D ...    141          DC.B  'User Mode',CR,LF
-00004D37= 50 4C 45 41 53 45 ...    142          DC.B   'PLEASE CHOOSE AN OPERATION',CR,LF,0
-00004D54                           143  MENUPROMPT  
-00004D54= 0D 0A                    144          DC.B    '',CR,LF
-00004D56= 31 29 20 41 44 44 ...    145          DC.B    '1) ADDITION',CR,LF
-00004D63= 32 29 20 50 72 69 ...    146          DC.B    '2) Privilage Error test',CR,LF
-00004D7C= 33 29 20 42 72 65 ...    147          DC.B    '3) Break Point test',CR,LF
-00004D91= 34 29 20 41 64 64 ...    148          DC.B    '4) Address Error test',CR,LF
-00004DA8= 35 29 20 49 6C 6C ...    149          DC.B    '5) Illegal Instruction Test',CR,LF 
-00004DC5= 36 29 20 45 58 49 ...    150          DC.B    '6) EXIT',CR,LF
-00004DCE= 20 20 20 4F 50 45 ...    151          DC.B    '   OPERATION: ',0  
-00004DDD                           152  ADDPROMPT 
-00004DDD= 41 44 44 49 54 49 ...    153          DC.B  'ADDITION',CR,LF
-00004DE7= 43 48 4F 53 45 20 ...    154          DC.B   'CHOSE THE TWO NUMBERS TO ADD (-99 TO 99)',CR,LF,0
-00004E12                           155       
-00004E12                           156  SUBPROMPT 
-00004E12= 50 72 69 76 69 6C ...    157          DC.B  'Privilage Error test',CR,LF,0
-00004E29                           158                 
-00004E29                           159  MULTIPROMPT 
-00004E29= 42 72 65 61 6B 20 ...    160          DC.B  'Break Point',CR,LF,0
-00004E37                           161           
-00004E37                           162          
-00004E37                           163  DIVPROMPT 
-00004E37= 41 64 64 72 65 73 ...    164          DC.B  'Address Error Test',CR,LF,0
-00004E4C                           165        
-00004E4C                           166       
-00004E4C                           167  ERRORPROMPT 
-00004E4C= 4E 4F 54 20 41 20 ...    168          DC.B  'NOT A VALID CHOICE',CR,LF
-00004E60= 54 52 59 20 41 47 ...    169          DC.B  'TRY AGAIN',CR,LF,0 
-00004E6C                           170  SPACING
-00004E6C= 20 0D 0A 00              171          DC.B    ' ',CR,LF,0
-00004E70                           172          
-00004E70                           173  DIVZEROPROMPT 
-00004E70= 43 41 4E 4E 4F 54 ...    174          DC.B  'CANNOT DIVIDE BY ZERO',CR,LF
-00004E87= 54 52 59 20 41 47 ...    175          DC.B  'TRY AGAIN',CR,LF,0 
-00004E93                           176  EQUALSIGN
-00004E93= 3D 3D 3D 3D 3D 00        177          DC.B  '=====',0
-00004E99                           178  ADDSIGN
-00004E99= 2B 00                    179          DC.B    '+',0
-00004E9B                           180  SUBSIGN
-00004E9B= 2D 00                    181          DC.B    '-',0
-00004E9D                           182  MULTISIGN
-00004E9D= 2A 00                    183          DC.B    '*',0
-00004E9F                           184  DIVSIGN
-00004E9F= 2F 0D 0A 00              185          DC.B    '/',CR,LF,0
-00004EA3                           186  GOODBYE
-00004EA3= 45 78 69 74 69 6E ...    187          DC.B    'Exiting using Trap 15',CR,LF
-00004EBA= 47 4F 4F 44 20 42 ...    188          DC.B     'GOOD BYE',CR,LF,0
-00004EC5                           189  illegalprompt        
-00004EC5                           190          
-00004EC5= 49 6C 6C 65 67 61 ...    191          DC.B    'Illegal instruction test',CR,LF,0
-00004EE0                           192          
-00004EE0                           193  
-00004EE0                           194       END    START       
+00004C00                             8      ORG    $4C00            ORIGIN IN MEMORY
+00004C00  027C DFFF                  9      ANDI.W  #$DFFF,SR
+00004C04                            10  START:            
+00004C04                            11  
+00004C04  49F9 00004D2C             12      LEA     MESSAGE,A4      LOADS THE ADDRESS OF THE SAVED STRING INTO ADDRESS REGISTER 1 
+00004C0A  123C 0004                 13      MOVE.B  #4,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER 1
+00004C0E  4E40                      14      TRAP    #0              TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITH LF AND CR
+00004C10                            15      
+00004C10                            16  MENU:
+00004C10  123C 0002                 17      move.b  #2,d1           NewLine
+00004C14  4E40                      18      trap    #0
+00004C16  49F9 00004D56             19      LEA     MENUPROMPT,A4   LOADS THE ADDRESS FOR THE MENUPROMPT 
+00004C1C  123C 0004                 20      MOVE.B  #4,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER 1
+00004C20  4E40                      21      TRAP    #0              TRAP COMMAND DISPLAYS STRING TO THE SCREEN 
+00004C22                            22  
+00004C22  123C 0000                 23      MOVE.B  #0,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER ZERO
+00004C26  4E40                      24      TRAP    #0              TRAP COMMAND READS A NUMBER FROM THE KEYBOARD 
+00004C28  49F9 00004E6E             25      LEA     SPACING,A4      LOADS A PREDETERMINED SPACING STRING
+00004C2E  123C 0004                 26      MOVE.B  #4,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER 1
+00004C32  4E40                      27      TRAP    #0              TRAP COMMAND DISPLAYS STRING TO THE SCREEN WITH LF AND CR
+00004C34                            28      
+00004C34                            29      
+00004C34                            30  
+00004C34                            31      
+00004C34                            32      
+00004C34  B03C 0031                 33      CMP.b   #49,D0          COMPARES THE NUMBER CAPTURED ABOVE TO PRE-SELECTED INTEGERS TO BRANCH TO SUBROUTINES
+00004C38  6700 0038                 34      BEQ     ADD             BRANCH IF EQUAL TO ADDITION
+00004C3C  B03C 0032                 35      CMP.b   #50,D0
+00004C40  6700 0090                 36      BEQ     PRI             BRANCH IF EQUAL TO Privilage Error Test
+00004C44  B03C 0033                 37      CMP.b   #51,D0
+00004C48  6700 009A                 38      BEQ     BPT           BRANCH IF EQUAL TO Break Point Test
+00004C4C  B03C 0034                 39      CMP.b   #52,D0
+00004C50  6700 00A4                 40      BEQ     ADDER             BRANCH IF EQUAL TO Address Error Test
+00004C54  B03C 0035                 41      CMP.b   #53,D0       
+00004C58  6700 00B0                 42      BEQ     illegal         BRANCH IF EQUAL TO Illegal Instruction Test
+00004C5C  B03C 0036                 43      CMP.b   #54,D0       
+00004C60  6700 00BC                 44      BEQ     EXIT            BRANCH IF EQUAL TO EXIT
+00004C64                            45  
+00004C64                            46       
+00004C64                            47  
+00004C64                            48  ERROR:                      ;SHOULD NOTHING EQUAL, PROGRAM RUNS INTO AN ERROR MESSAGE AND LOOPS BACK
+00004C64                            49  
+00004C64                            50  
+00004C64  49F9 00004E4E             51      LEA     ERRORPROMPT,A4  LOADS STRING ADDRESS
+00004C6A  123C 0004                 52      MOVE.B  #4,D1
+00004C6E  4E40                      53      TRAP    #0
+00004C70  609E                      54      BRA     MENU            
+00004C72                            55  ADD:
+00004C72                            56  
+00004C72                            57  
+00004C72  49F9 00004DDF             58      LEA     ADDPROMPT,A4    LOADS PROMPT FOR ADDITION
+00004C78  123C 0004                 59      MOVE.B  #4,D1          
+00004C7C  4E40                      60      TRAP    #0
+00004C7E  49F9 00004E6E             61      LEA     SPACING,A4      LOADS A SPACING FORMAT FOR ASTHETICS
+00004C84  123C 0004                 62      MOVE.B  #4,D1
+00004C88  4E40                      63      TRAP    #0
+00004C8A  123C 0000                 64      MOVE.B  #0,D1           CAPTURES A NUMBER FROM THE KEYBOARD (STORED IN DATA REGISTER 1)
+00004C8E  4E40                      65      TRAP    #0
+00004C90  49F9 00004E74             66      LEA     ADDSIGN,A4      ADDITION SIGN IS DISPLAYED
+00004C96  123C 0004                 67      MOVE.B  #4,D1
+00004C9A  4E40                      68      TRAP    #0
+00004C9C  2400                      69      MOVE.L  D0,D2           MOVE DATA FROM THE FIRST NUMBER TO DATA REGISTER 2 FROM DATA REGISTER 1
+00004C9E  123C 0000                 70      MOVE.B  #0,D1           CAPTURE ANOTHER NUMBER  FROM THE KEYBOARD (STORED IN DATA REGISTER 1)
+00004CA2  4E40                      71      TRAP    #0
+00004CA4  2600                      72      MOVE.L  D0,D3           MOVE DATA FROM DATA REGISTER 1 TO DATA REGISTER 3
+00004CA6  D682                      73      ADD.L   D2,D3           ADD DATA FROM REGISTER 2 TO REGISTER 3
+00004CA8  49F9 00004E72             74      LEA     EQUALSIGN,A4    EQUAL SIGN IS DISPLAYED
+00004CAE  123C 0004                 75      MOVE.B  #4,D1
+00004CB2  4E40                      76      TRAP    #0
+00004CB4  2003                      77      MOVE.L  D3,D0           MOVE THE ADDED NUMBER FROM REGISTER 3 TO REGISTER 1
+00004CB6  0480 00000030             78      sub.l   #48,d0
+00004CBC  123C 0001                 79      MOVE.B  #1,D1           DISPLAY THE ANSWER OF THE ADDITION OPERATION
+00004CC0  4E40                      80      TRAP    #0
+00004CC2  49F9 00004E6E             81      LEA     SPACING,A4      SPACING FOR ASTHETICS
+00004CC8  123C 0004                 82      MOVE.B  #4,D1
+00004CCC  4E40                      83      TRAP    #0
+00004CCE  6000 FF40                 84      BRA     MENU            RETURN TO MAIN MENU
+00004CD2                            85      
+00004CD2                            86  PRI:
+00004CD2                            87      
+00004CD2                            88      
+00004CD2  49F9 00004E14             89      LEA     PRIPROMPT,A4    LOADS PROMPT
+00004CD8  123C 0004                 90      MOVE.B  #4,D1
+00004CDC  4E40                      91      TRAP    #0
+00004CDE  4E70                      92      RESET
+00004CE0                            93      *ANDI.W  #$DFFF,SR
+00004CE0  6000 FF2E                 94      BRA     Menu
+00004CE4                            95   
+00004CE4                            96  BPT:
+00004CE4                            97  
+00004CE4                            98      
+00004CE4  49F9 00004E2B             99      LEA     BPPROMPT,A4     LOADS PROMPT
+00004CEA  123C 0004                100      MOVE.B  #4,D1
+00004CEE  4E40                     101      Trap    #0
+00004CF0  4E4E                     102      trap    #14             TRAP #14 EXCEPTION(BREAK POINT)
+00004CF2  6000 FF1C                103      BRA     Menu
+00004CF6                           104      
+00004CF6                           105      
+00004CF6                           106  
+00004CF6                           107  ADDER:
+00004CF6                           108     
+00004CF6  49F9 00004E39            109      LEA    ADDERPROMPT,A4     LOADS PROMPT
+00004CFC  103C 0004                110      MOVE.B  #4,D0
+00004D00  4E40                     111      TRAP    #0
+00004D02  31C0 4FF3                112      MOVE.W  D0,$4FF3
+00004D06  6000 FF08                113      BRA     MENU            RETURN TO MAIN 
+00004D0A                           114      
+00004D0A                           115  
+00004D0A                           116  illegal:
+00004D0A  49F9 00004E98            117       LEA    illegalprompt,A4     LOADS DIVISION PROMPT
+00004D10  103C 0004                118      MOVE.B  #4,D0
+00004D14  4E40                     119      TRAP    #0
+00004D16  4EF8 0000                120      jmp     $0000
+00004D1A                           121   
+00004D1A  6000 FEF4                122         BRA     MENU            RETURN TO MAIN 
+00004D1E                           123  
+00004D1E                           124      
+00004D1E                           125  EXIT
+00004D1E                           126  
+00004D1E                           127      
+00004D1E  49F9 00004E76            128      LEA     GOODBYE,A4       LOADS EXIT MESSAGE
+00004D24  123C 0004                129      MOVE.B  #4,D1
+00004D28  4E40                     130      TRAP    #0          
+00004D2A  4E4F                     131      TRAP    #15 
+00004D2C                           132  
+00004D2C                           133     
+00004D2C                           134    
+00004D2C  =0000000D                135  CR  EQU $0D
+00004D2C  =0000000A                136  LF  EQU $0A   
+00004D2C                           137  
+00004D2C                           138  MESSAGE 
+00004D2C= 0D 0A                    139           DC.B    '',CR,LF
+00004D2E= 55 73 65 72 20 4D ...    140          DC.B  'User Mode',CR,LF
+00004D39= 50 4C 45 41 53 45 ...    141          DC.B   'PLEASE CHOOSE AN OPERATION',CR,LF,0
+00004D56                           142  MENUPROMPT  
+00004D56= 0D 0A                    143          DC.B    '',CR,LF
+00004D58= 31 29 20 41 44 44 ...    144          DC.B    '1) ADDITION',CR,LF
+00004D65= 32 29 20 50 72 69 ...    145          DC.B    '2) Privilage Error test',CR,LF
+00004D7E= 33 29 20 42 72 65 ...    146          DC.B    '3) Break Point test',CR,LF
+00004D93= 34 29 20 41 64 64 ...    147          DC.B    '4) Address Error test',CR,LF
+00004DAA= 35 29 20 49 6C 6C ...    148          DC.B    '5) Illegal Instruction Test',CR,LF 
+00004DC7= 36 29 20 45 58 49 ...    149          DC.B    '6) EXIT',CR,LF
+00004DD0= 20 20 20 4F 50 45 ...    150          DC.B    '   OPERATION: ',0  
+00004DDF                           151  ADDPROMPT 
+00004DDF= 41 44 44 49 54 49 ...    152          DC.B  'ADDITION',CR,LF
+00004DE9= 43 48 4F 53 45 20 ...    153          DC.B   'CHOSE THE TWO NUMBERS TO ADD (-99 TO 99)',CR,LF,0
+00004E14                           154       
+00004E14                           155  PRIPROMPT 
+00004E14= 50 72 69 76 69 6C ...    156          DC.B  'Privilage Error test',CR,LF,0
+00004E2B                           157                 
+00004E2B                           158  BPPROMPT 
+00004E2B= 42 72 65 61 6B 20 ...    159          DC.B  'Break Point',CR,LF,0
+00004E39                           160           
+00004E39                           161          
+00004E39                           162  ADDERPROMPT 
+00004E39= 41 64 64 72 65 73 ...    163          DC.B  'Address Error Test',CR,LF,0
+00004E4E                           164        
+00004E4E                           165       
+00004E4E                           166  ERRORPROMPT 
+00004E4E= 4E 4F 54 20 41 20 ...    167          DC.B  'NOT A VALID CHOICE',CR,LF
+00004E62= 54 52 59 20 41 47 ...    168          DC.B  'TRY AGAIN',CR,LF,0 
+00004E6E                           169  SPACING
+00004E6E= 20 0D 0A 00              170          DC.B    ' ',CR,LF,0
+00004E72                           171          
+00004E72                           172  EQUALSIGN
+00004E72= 3D 00                    173          DC.B  '=',0
+00004E74                           174  ADDSIGN
+00004E74= 2B 00                    175          DC.B    '+',0
+00004E76                           176  GOODBYE
+00004E76= 45 78 69 74 69 6E ...    177          DC.B    'Exiting using Trap 15',CR,LF
+00004E8D= 47 4F 4F 44 20 42 ...    178          DC.B     'GOOD BYE',CR,LF,0
+00004E98                           179  illegalprompt        
+00004E98                           180          
+00004E98= 49 6C 6C 65 67 61 ...    181          DC.B    'Illegal instruction test',CR,LF,0
+00004EB3                           182          
+00004EB3                           183  
+00004EB3                           184       END    START       
 
 No errors detected
 No warnings generated
@@ -204,30 +194,26 @@ No warnings generated
 SYMBOL TABLE INFORMATION
 Symbol-name         Value
 -------------------------
-ADD                 4C6E
-ADDPROMPT           4DDD
-ADDSIGN             4E99
+ADD                 4C72
+ADDER               4CF6
+ADDERPROMPT         4E39
+ADDPROMPT           4DDF
+ADDSIGN             4E74
+BPPROMPT            4E2B
+BPT                 4CE4
 CR                  D
-DIV                 4CF4
-DIVPROMPT           4E37
-DIVSIGN             4E9F
-DIVZEROPROMPT       4E70
-EQUALSIGN           4E93
-ERROR               4C60
-ERRORPROMPT         4E4C
-EXIT                4D1C
-GOODBYE             4EA3
-ILLEGAL             4D08
-ILLEGALPROMPT       4EC5
+EQUALSIGN           4E72
+ERROR               4C64
+ERRORPROMPT         4E4E
+EXIT                4D1E
+GOODBYE             4E76
+ILLEGAL             4D0A
+ILLEGALPROMPT       4E98
 LF                  A
-MENU                4C0C
-MENUPROMPT          4D54
-MESSAGE             4D2A
-MULTI               4CE2
-MULTIPROMPT         4E29
-MULTISIGN           4E9D
-SPACING             4E6C
-START               4C00
-SUB                 4CCE
-SUBPROMPT           4E12
-SUBSIGN             4E9B
+MENU                4C10
+MENUPROMPT          4D56
+MESSAGE             4D2C
+PRI                 4CD2
+PRIPROMPT           4E14
+SPACING             4E6E
+START               4C04
