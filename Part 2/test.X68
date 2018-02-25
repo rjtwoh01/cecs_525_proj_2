@@ -6,7 +6,7 @@
 * Description: PROJECT 2 PART 2 USER
 *-----------------------------------------------------------
     ORG     $4C00           ORIGIN IN MEMORY
-    ANDI.W  #$DFFF,SR       SETTING STATUR REGISTER TO USER MODE
+    ;ANDI.W  #$DFFF,SR       SETTING STATUR REGISTER TO USER MODE
 START:            
     LEA     MESSAGE,A4      LOADS THE ADDRESS OF THE SAVED STRING INTO ADDRESS REGISTER 1 
     MOVE.B  #4,D1           PLACES THE TRAP COMMAND INTO DATA REGISTER 1

@@ -530,7 +530,10 @@ JUMP    BSR 	PARAM       	Get address from buffer
         BNE.S   JUMP1       	If error flag not zero then exit
         TST.L   D0          	Else test for missing address
         BEQ.S   JUMP1       	field. If no address then exit
-        MOVE.L  D0,A0       	Put jump address in A0 and call the
+        CMP     #4C00,D0        If address less then 4C00
+        BLT     JUMP2           Dont switch superuser state
+        ANDI.W  #$DFFF,SR       Else SETTING STATUR REGISTER TO USER MODE
+JUMP2   MOVE.L  D0,A0       	Put jump address in A0 and call the
         JMP 	(A0)        	subroutine. User to supply RTS!!
 JUMP1   LEA.L   ERMES1(PC),A4   Here for error - display error
         BRA 	PSTRING     	message and return
